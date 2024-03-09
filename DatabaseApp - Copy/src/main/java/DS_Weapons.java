@@ -1,5 +1,5 @@
 public class DS_Weapons {
-
+    //Getters and Setters
     private int weapon_id;
     private String weapon_name;
     private int weapon_attack;
