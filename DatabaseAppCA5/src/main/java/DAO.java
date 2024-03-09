@@ -37,29 +37,57 @@ public class DAO
         }
     }
 
+    //f1: View all
+    //Completed by: Michal
+
     public List<DS_Weapons> getAllWeapons() throws SQLException
     {
+        //creates list to store the retrieved weapons
         List<DS_Weapons> weapons = new ArrayList<>();
+        //connects to db
         Connection conn = getConnection();
 
-        if (conn != null) {
-            String query = "SELECT * FROM Weapons"; // Your SQL query
-            PreparedStatement stmt = conn.prepareStatement(query);
-            ResultSet results = stmt.executeQuery();
+        String query = "SELECT * FROM Weapons"; //SQL query
+        PreparedStatement stmt = conn.prepareStatement(query);//prepares statement
+        ResultSet results = stmt.executeQuery();//execute query
 
-            while (results.next()) {
-                DS_Weapons weapon = new DS_Weapons();
-                weapon.setID(results.getInt("ID"));
-                weapon.setName(results.getString("Name"));
-                weapon.setAttack(results.getInt("Attack"));
-                weapon.setWeight(results.getFloat("Weight"));
-                weapon.setLocation(results.getString("Location"));
-                weapons.add(weapon);
-            }
+        //Iterate through the result set
+        while (results.next())
+        {
+            // Create a new DS_Weapons object for each retrieved weapon
+            DS_Weapons weapon = new DS_Weapons();
+
+            weapon.setID(results.getInt("ID"));
+            weapon.setName(results.getString("Name"));
+            weapon.setAttack(results.getInt("Attack"));
+            weapon.setWeight(results.getFloat("Weight"));
+            weapon.setLocation(results.getString("Location"));
+
+            //Add the weapon to the list of weapons
+            weapons.add(weapon);
         }
 
         conn.close();
         return weapons;
+    }
+
+    //f3:Delete
+    //Completed By: Michal Becmer
+
+    public void deleteWeapon(int weaponId) throws SQLException {
+        //get connection to the db
+        Connection conn = getConnection();
+        //defining sql query
+        String query = "DELETE FROM Weapons WHERE ID = ?";
+        //prepare query with a placeholder until you give it an id
+        PreparedStatement stmt = conn.prepareStatement(query);
+        //set id as value and execute the update
+        stmt.setInt(1, weaponId);
+        stmt.executeUpdate();
+        //success message
+        System.out.println("Weapon with ID " + weaponId + " deleted successfully.");
+        //stop connection
+        conn.close();
     }
 
     public User logIn(String username, String password) throws SQLException
