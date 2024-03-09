@@ -1,50 +1,50 @@
 public class DS_Weapons {
     //Getters and Setters
     //test
-    private int weapon_id;
-    private String weapon_name;
-    private int weapon_attack;
-    private float weapon_weight;
-    private String weapon_location;
+    private int ID;
+    private String Name;
+    private int Attack;
+    private float Weight;
+    private String Location;
 
-    public int getWeapon_id() {
-        return weapon_id;
+    public int getID() {
+        return ID;
     }
 
-    public void setWeapon_id(int weapon_id) {
-        this.weapon_id = weapon_id;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
-    public String getWeapon_name() {
-        return weapon_name;
+    public String getName() {
+        return Name;
     }
 
-    public void setWeapon_name(String weapon_name) {
-        this.weapon_name = weapon_name;
+    public void setName(String name) {
+        Name = name;
     }
 
-    public int getWeapon_attack() {
-        return weapon_attack;
+    public int getAttack() {
+        return Attack;
     }
 
-    public void setWeapon_attack(int weapon_attack) {
-        this.weapon_attack = weapon_attack;
+    public void setAttack(int attack) {
+        Attack = attack;
     }
 
-    public float getWeapon_weight() {
-        return weapon_weight;
+    public float getWeight() {
+        return Weight;
     }
 
-    public void setWeapon_weight(float weapon_weight) {
-        this.weapon_weight = weapon_weight;
+    public void setWeight(float weight) {
+        Weight = weight;
     }
 
-    public String getWeapon_location() {
-        return weapon_location;
+    public String getLocation() {
+        return Location;
     }
 
-    public void setWeapon_location(String weapon_location) {
-        this.weapon_location = weapon_location;
+    public void setLocation(String location) {
+        Location = location;
     }
 }
 

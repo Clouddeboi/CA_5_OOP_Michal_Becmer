@@ -37,26 +37,29 @@ public class DAO
         }
     }
 
-    public List<User> getAllUsers() throws SQLException
+    public List<DS_Weapons> getAllWeapons() throws SQLException
     {
-        List<User> users = new ArrayList<>();
+        List<DS_Weapons> weapons = new ArrayList<>();
         Connection conn = getConnection();
-        Statement stmt = conn.createStatement();
-        ResultSet results = stmt.executeQuery("Select * from Users");
 
-        while (results.next())
-        {
-            User u = new User();
-            u.setId(results.getInt("ID"));
-            u.setUsername(results.getString("username"));
-            u.setPassword(results.getString("password"));
-            u.setDisplayName(results.getString("displayName"));
-            u.setAdmin(results.getBoolean("isAdmin"));
-            users.add(u);
+        if (conn != null) {
+            String query = "SELECT * FROM Weapons"; // Your SQL query
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet results = stmt.executeQuery();
+
+            while (results.next()) {
+                DS_Weapons weapon = new DS_Weapons();
+                weapon.setID(results.getInt("ID"));
+                weapon.setName(results.getString("Name"));
+                weapon.setAttack(results.getInt("Attack"));
+                weapon.setWeight(results.getFloat("Weight"));
+                weapon.setLocation(results.getString("Location"));
+                weapons.add(weapon);
+            }
         }
 
         conn.close();
-        return users;
+        return weapons;
     }
 
     public User logIn(String username, String password) throws SQLException
