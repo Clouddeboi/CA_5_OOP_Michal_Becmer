@@ -30,7 +30,7 @@ public class DAO
                     (url+dbname,username,password);
             return conn;
         }
-         catch (SQLException e) {
+        catch (SQLException e) {
 
             System.out.println("Unable to connect to databse");
             return null;
@@ -38,7 +38,10 @@ public class DAO
     }
 
     //f1: View all
-    //Completed by: Michal
+    /**
+     * Main author: Michal Becmer
+     * Other contributors: Jeffin Jesudas
+     **/
 
     public List<DS_Weapons> getAllWeapons() throws SQLException
     {
@@ -71,8 +74,44 @@ public class DAO
         return weapons;
     }
 
+    //f2:Find by ID
+    /**
+     * Main author: Jeffin Jesudas
+     * Other contributors: Michal Becmer
+     **/
+    public DS_Weapons getWeaponById(int id) throws SQLException {
+        Connection connection = getConnection(); // Get a connection to the database
+        // Create a prepared statement with a parameterized query to retrieve a weapon by ID
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM weapons WHERE id = ?");
+        statement.setInt(1, id); // Set the value of the parameter in the prepared statement
+
+        ResultSet resultSet = statement.executeQuery(); // Execute the query and get the result set
+        DS_Weapons weapon = null; // Initialize a Weapon object to store the result
+
+        // Check if the result set contains a row and create a Weapon object if found
+        if (resultSet.next()) {
+            weapon = new DS_Weapons(); // Create a new Weapon object
+            // Set attributes of the Weapon object from the result set
+            weapon.setID(resultSet.getInt("ID"));
+            weapon.setName(resultSet.getString("Name"));
+            weapon.setAttack(resultSet.getInt("Attack"));
+            weapon.setWeight(resultSet.getFloat("Weight"));
+            weapon.setLocation(resultSet.getString("Location"));
+        }
+
+        // Close the result set, statement, and connection to free up resources
+        resultSet.close();
+        statement.close();
+        connection.close();
+
+        return weapon; // Return the Weapon object (or null if not found)
+    }
+
     //f3:Delete
-    //Completed By: Michal Becmer
+    /**
+     * Main author: Michal Becmer
+     * Other contributors: Stephen Carragher Kelly
+     **/
 
     public void deleteWeapon(int weaponId) throws SQLException {
         //get connection to the db
@@ -87,6 +126,39 @@ public class DAO
         //success message
         System.out.println("Weapon with ID " + weaponId + " deleted successfully.");
         //stop connection
+        conn.close();
+    }
+
+    //f4:Insert an Entity
+    /**
+     * Main author: Stephen Carragher Kelly
+     * Other contributors: Michal Becmer
+     **/
+    public void insertWeapon(DS_Weapons weapon) throws SQLException
+    {
+        Connection conn = getConnection(); // Connects to database
+        String query = "INSERT INTO Weapons (Name, Attack, Weight, Location) VALUES (?,?,?,?)"; //creates the query for the insert statement
+        PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+
+        stmt.setString(1, weapon.getName());
+        stmt.setInt(2, weapon.getAttack());
+        stmt.setFloat(3, weapon.getWeight());
+        stmt.setString(4, weapon.getLocation());
+
+        stmt.executeUpdate(); // Executes the statement
+
+        ResultSet generatedKeys  = stmt.getGeneratedKeys(); //gets any auto-generated keys
+        if(generatedKeys.next())
+        {
+            weapon.setID(generatedKeys.getInt(1)); //sets the ID in the weapon object
+        }
+
+        else
+        {
+            throw new SQLException("Creating weapon failed, no ID obtained."); //throwsd an exception if no ID was obtained
+        }
+
+        System.out.println("Weapon inserted successfully with ID: " + weapon.getID());
         conn.close();
     }
 
