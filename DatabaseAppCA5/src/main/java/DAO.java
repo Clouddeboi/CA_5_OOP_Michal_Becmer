@@ -162,6 +162,46 @@ public class DAO
         conn.close();
     }
 
+    /**
+     * Main author: Michal Becmer
+     * Other contributors:
+     **/
+    public DS_Weapons update(int id, DS_Weapons weapon) throws SQLException{
+
+        //connects to database
+        Connection conn = getConnection();
+        //defines the needed sql query
+        String query = "UPDATE Weapons SET Name=?, Attack=?, Weight=?, Location=? WHERE ID=?";
+        //prepares sql statement
+        PreparedStatement stmt = conn.prepareStatement(query);
+        //sets all the parameters to ? assumes the parameters is its respected type
+        stmt.setString(1, weapon.getName());//for example assumes this is a string using .setString
+        stmt.setInt(2, weapon.getAttack());
+        stmt.setFloat(3, weapon.getWeight());
+        stmt.setString(4, weapon.getLocation());
+        stmt.setInt(5, id);
+
+        //executes operation
+        int affectedRows = stmt.executeUpdate();
+
+        //closes the prepared statement and database connection
+        stmt.close();
+        conn.close();
+
+        //checking if update is successful
+        if(affectedRows > 0)
+        {
+            System.out.println("Weapon with ID " + id+ " has been successfully updated!");
+            return null;//returns null if no weapon was found
+        }
+        else
+        {
+            System.out.println("Weapon not found!");
+            return null;//return null if no weapon was found with given id
+        }
+
+    }
+
     public User logIn(String username, String password) throws SQLException
     {
         User u = null;

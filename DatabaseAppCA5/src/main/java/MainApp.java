@@ -16,6 +16,7 @@ import java.util.Scanner;
  * - Michal Did feature 1 and 3
  * - Jeff Did Feature 2
  * - Stephen did Feature 4
+ * - Michal did Feature 5
  * */
 
 /**
@@ -55,6 +56,7 @@ public class MainApp {
                 {
                     System.out.println("3. Delete Weapon By ID");
                     System.out.println("4. Insert Weapon By ID");
+                    System.out.println("5. Update Weapon By ID");
                 }
                 System.out.println("99. Exit");
                 System.out.println("-----------------------\n");
@@ -122,6 +124,47 @@ public class MainApp {
                         }
 
                         break;
+                    case 5:
+                        System.out.println("Enter The ID of the weapon you wish to update: ");
+                        int idForUpdate = in.nextInt();//id of the weapon needed to be updated
+                        in.nextLine();
+
+                        System.out.println("Enter updated information here:");
+                        System.out.println("--------------------------------");
+                        System.out.println("Weapon Name: ");
+                        String newName = in.nextLine();
+
+                        System.out.println("Weapon Attack: ");
+                        int newAttack = in.nextInt();
+                        in.nextLine();//needed to be able to take in the weight
+
+                        System.out.println("Weapon Weight: ");
+                        float newWeight = in.nextFloat();
+                        in.nextLine();//needed to be able to take in the location
+
+                        System.out.println("Weapon Location: ");
+                        String newLocation = in.nextLine();
+
+                        //new object to contain the updated info
+                        DS_Weapons weaponUpdate = new DS_Weapons();
+
+                        weaponUpdate.setName(newName);
+                        weaponUpdate.setAttack(newAttack);
+                        weaponUpdate.setWeight(newWeight);
+                        weaponUpdate.setLocation(newLocation);
+
+                        //calling the method with the given id
+                        DS_Weapons complete = dao.update(idForUpdate, weaponUpdate);
+                        if(complete != null)
+                        {
+                            System.out.println("Weapon with ID " + idForUpdate +" updated");
+                        }
+                        else
+                        {
+                            System.out.println("Failed to update!");
+                        }
+                        break;
+
                     case 99:
                         System.out.println("Exiting...");
                         break;
