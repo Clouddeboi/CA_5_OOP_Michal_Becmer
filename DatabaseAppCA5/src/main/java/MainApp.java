@@ -17,6 +17,7 @@ import java.util.Scanner;
  * - Jeff Did Feature 2
  * - Stephen did Feature 4
  * - Michal did Feature 5
+ * - Stephen did Feature 6
  * */
 
 /**
@@ -58,6 +59,7 @@ public class MainApp {
                     System.out.println("4. Insert Weapon By ID");
                     System.out.println("5. Update Weapon By ID");
                 }
+                System.out.println("6. View Weapons based on filter");
                 System.out.println("99. Exit");
                 System.out.println("-----------------------\n");
 
@@ -86,85 +88,103 @@ public class MainApp {
                         }
                         break;
                     case 3:
-                        System.out.print("Enter the ID of the weapon you would like to remove: ");
-                        weaponIdToDelete = in.nextInt();//reads input from user
-                        in.nextLine(); // Consume newline character
-                        dao.deleteWeapon(weaponIdToDelete);//call method
+                        if (u.isAdmin()) {
+                            System.out.print("Enter the ID of the weapon you would like to remove: ");
+                            weaponIdToDelete = in.nextInt();//reads input from user
+                            in.nextLine(); // Consume newline character
+                            dao.deleteWeapon(weaponIdToDelete);//call method
+                        }
+                        else
+                        {
+                            System.out.println("You do not have Admin Privilages");
+                        }
                         break;
                     case 4:
                         /**
                          * Main author: Stephen Carragher Kelly
                          * Other contributors: Michal Becmer
                          **/
-                        System.out.println("Please enter the weapon's name: ");
-                        String name = in.nextLine();
-                        System.out.println("Please enter the weapon's attack: ");
-                        int attack = in.nextInt();
-                        in.nextLine();
-                        System.out.println("Please enter the weapon's weight: ");
-                        Float weight = in.nextFloat();
-                        in.nextLine();
-                        System.out.println("Please enter the weapon's Location: ");
-                        String location = in.nextLine();
+                        if (u.isAdmin()) {
+                            System.out.println("Please enter the weapon's name: ");
+                            String name = in.nextLine();
+                            System.out.println("Please enter the weapon's attack: ");
+                            int attack = in.nextInt();
+                            in.nextLine();
+                            System.out.println("Please enter the weapon's weight: ");
+                            Float weight = in.nextFloat();
+                            in.nextLine();
+                            System.out.println("Please enter the weapon's Location: ");
+                            String location = in.nextLine();
 
-                        try
-                        {
-                            DS_Weapons newWeapon = new DS_Weapons();
-                            newWeapon.setName(name);
-                            newWeapon.setAttack(attack);
-                            newWeapon.setWeight(weight);
-                            newWeapon.setLocation(location);
+                            try {
+                                DS_Weapons newWeapon = new DS_Weapons();
+                                newWeapon.setName(name);
+                                newWeapon.setAttack(attack);
+                                newWeapon.setWeight(weight);
+                                newWeapon.setLocation(location);
 
-                            dao.insertWeapon(newWeapon);
-                        }
-                        catch (SQLException  e)
-                        {
-                            e.printStackTrace();
+                                dao.insertWeapon(newWeapon);
+                            } catch (SQLException e) {
+                                e.printStackTrace();
 
-                        }
-
-                        break;
-                    case 5:
-                        System.out.println("Enter The ID of the weapon you wish to update: ");
-                        int idForUpdate = in.nextInt();//id of the weapon needed to be updated
-                        in.nextLine();
-
-                        System.out.println("Enter updated information here:");
-                        System.out.println("--------------------------------");
-                        System.out.println("Weapon Name: ");
-                        String newName = in.nextLine();
-
-                        System.out.println("Weapon Attack: ");
-                        int newAttack = in.nextInt();
-                        in.nextLine();//needed to be able to take in the weight
-
-                        System.out.println("Weapon Weight: ");
-                        float newWeight = in.nextFloat();
-                        in.nextLine();//needed to be able to take in the location
-
-                        System.out.println("Weapon Location: ");
-                        String newLocation = in.nextLine();
-
-                        //new object to contain the updated info
-                        DS_Weapons weaponUpdate = new DS_Weapons();
-
-                        weaponUpdate.setName(newName);
-                        weaponUpdate.setAttack(newAttack);
-                        weaponUpdate.setWeight(newWeight);
-                        weaponUpdate.setLocation(newLocation);
-
-                        //calling the method with the given id
-                        DS_Weapons complete = dao.update(idForUpdate, weaponUpdate);
-                        if(complete != null)
-                        {
-                            System.out.println("Weapon with ID " + idForUpdate +" updated");
+                            }
                         }
                         else
                         {
-                            System.out.println("Failed to update!");
+                            System.out.println("You do not have Admin Privilages");
                         }
                         break;
+                    case 5:
+                        if (u.isAdmin()) {
+                            System.out.println("Enter The ID of the weapon you wish to update: ");
+                            int idForUpdate = in.nextInt();//id of the weapon needed to be updated
+                            in.nextLine();
 
+                            System.out.println("Enter updated information here:");
+                            System.out.println("--------------------------------");
+                            System.out.println("Weapon Name: ");
+                            String newName = in.nextLine();
+
+                            System.out.println("Weapon Attack: ");
+                            int newAttack = in.nextInt();
+                            in.nextLine();//needed to be able to take in the weight
+
+                            System.out.println("Weapon Weight: ");
+                            float newWeight = in.nextFloat();
+                            in.nextLine();//needed to be able to take in the location
+
+                            System.out.println("Weapon Location: ");
+                            String newLocation = in.nextLine();
+
+                            //new object to contain the updated info
+                            DS_Weapons weaponUpdate = new DS_Weapons();
+
+                            weaponUpdate.setName(newName);
+                            weaponUpdate.setAttack(newAttack);
+                            weaponUpdate.setWeight(newWeight);
+                            weaponUpdate.setLocation(newLocation);
+
+                            //calling the method with the given id
+                            DS_Weapons complete = dao.update(idForUpdate, weaponUpdate);
+                            if (complete != null) {
+                                System.out.println("Weapon with ID " + idForUpdate + " updated");
+                            } else {
+                                System.out.println("Failed to update!");
+                            }
+                        }
+                        else
+                        {
+                            System.out.println("You do not have Admin Privilages");
+                        }
+                        break;
+                    case 6:
+                        /**
+                         * Main author: Stephen Carragher Kelly
+                         * Other contributors:
+                         **/
+                        filterWeaponsByCriteria(dao);
+
+                        break;
                     case 99:
                         System.out.println("Exiting...");
                         break;
@@ -189,6 +209,48 @@ public class MainApp {
             System.out.printf("%-5d %-35s %-15s %-15s %-5s\n",
                     weapon.getID(), weapon.getName(), weapon.getAttack(),
                     weapon.getWeight(), weapon.getLocation());
+        }
+    }
+
+    /**
+     * Main author: Stephen Carragher Kelly
+     * Other contributors:
+     **/
+    private static void filterWeaponsByCriteria(DAO dao) throws SQLException
+    {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("1. Filter by Attack");
+        System.out.println("2. Filter by Weight");
+        System.out.println("Please choose the filter criteria: ");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        String filterCriteria;
+        if(choice == 1)
+        {
+            filterCriteria = "attack";
+        }
+        else if (choice == 2)
+        {
+            filterCriteria = "weight";
+        }
+        else
+        {
+            System.out.println("Invalid option, Try agin");
+            return;
+        }
+
+        System.out.println("now enter the value for filtering: ");
+        float value = scanner.nextFloat();
+        scanner.nextLine();
+
+        List<DS_Weapons> weaponsfiltered = dao.getWeaponByFilter(filterCriteria, value);
+
+        System.out.println("Filter List");
+        System.out.println(" ");
+        System.out.printf("%-5s %-35s %-15s %-15s %-5s\n", "ID", "Name", "Attack", "Weight", "Location");
+        for (DS_Weapons weapon : weaponsfiltered) {
+            System.out.printf("%-5d %-35s %-15s %-15s %-5s\n", weapon.getID(), weapon.getName(), weapon.getAttack(), weapon.getWeight(), weapon.getLocation());
         }
     }
 }

@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class DAO
@@ -200,6 +201,49 @@ public class DAO
             return null;//return null if no weapon was found with given id
         }
 
+    }
+
+    /**
+     * Main author: Stephen Carragher Kelly
+     * Other contributors:
+     **/
+    public List<DS_Weapons> getWeaponByFilter(String filterCriteria, float filterValue) throws SQLException
+    {
+        List<DS_Weapons> weapons = new ArrayList<>();
+        Connection conn = getConnection();
+
+        String query = "SELECT * FROM Weapons WHERE ";
+
+        if ("attack".equalsIgnoreCase(filterCriteria))
+        {
+            query += "Attack = ?";
+        }
+        else if ("weight".equalsIgnoreCase(filterCriteria))
+        {
+            query += "Weight = ?";
+        }
+        else
+        {
+            throw new IllegalArgumentException("Invalid filter criteria: " + filterCriteria);
+        }
+
+        PreparedStatement stmt = conn.prepareStatement(query);
+        stmt.setFloat(1, filterValue);
+
+        ResultSet results = stmt.executeQuery();
+
+        while (results.next()) {
+            DS_Weapons weapon = new DS_Weapons();
+            weapon.setID(results.getInt("ID"));
+            weapon.setName(results.getString("Name"));
+            weapon.setAttack(results.getInt("Attack"));
+            weapon.setWeight(results.getFloat("Weight"));
+            weapon.setLocation(results.getString("Location"));
+            weapons.add(weapon);
+        }
+
+        conn.close();
+        return weapons;
     }
 
     public User logIn(String username, String password) throws SQLException
