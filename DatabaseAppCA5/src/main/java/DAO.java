@@ -245,7 +245,6 @@ public class DAO
         conn.close();
         return weapons;
     }
-
     public User logIn(String username, String password) throws SQLException
     {
         User u = null;

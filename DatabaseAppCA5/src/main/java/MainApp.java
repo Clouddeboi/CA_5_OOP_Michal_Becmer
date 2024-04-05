@@ -60,6 +60,7 @@ public class MainApp {
                     System.out.println("5. Update Weapon By ID");
                 }
                 System.out.println("6. View Weapons based on filter");
+                System.out.println("7. Convert List to JSON String");
                 System.out.println("99. Exit");
                 System.out.println("-----------------------\n");
 
@@ -183,7 +184,9 @@ public class MainApp {
                          * Other contributors:
                          **/
                         filterWeaponsByCriteria(dao);
-
+                        break;
+                    case 7:
+                        System.out.println(JSON_Converter.listToJsonString(DAO.getInstance().getAllWeapons()));
                         break;
                     case 99:
                         System.out.println("Exiting...");
