@@ -61,6 +61,7 @@ public class MainApp {
                 }
                 System.out.println("6. View Weapons based on filter");
                 System.out.println("7. Convert List to JSON String");
+                System.out.println("8. View weapon as Json String by ID");
                 System.out.println("99. Exit");
                 System.out.println("-----------------------\n");
 
@@ -188,6 +189,24 @@ public class MainApp {
                     case 7:
                         System.out.println(JSON_Converter.listToJsonString(DAO.getInstance().getAllWeapons()));
                         break;
+                    case 8:
+                        /**
+                         * Main author: Stephen Carragher Kelly
+                         * Other contributors:
+                         **/
+                        System.out.println("Enter the ID of the weapon you would like to see as a JSON String");
+                        int weaponID = in.nextInt();
+                        in.nextLine();
+                        String weaponJson = dao.getWeaponbyIDasJson(weaponID);
+                        if(weaponJson != null)
+                        {
+                            System.out.println("Weapon Json:/n");
+                            System.out.println(weaponJson);
+                        }
+                        else
+                        {
+                            System.out.println("Weapon not found for ID: " + weaponID);
+                        }
                     case 99:
                         System.out.println("Exiting...");
                         break;

@@ -2,6 +2,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import com.google.gson.Gson;
 
 public class DAO
 {
@@ -245,6 +246,15 @@ public class DAO
         conn.close();
         return weapons;
     }
+    /**
+            * Main author: Stephen Carragher Kelly
+     **/
+    public String getWeaponbyIDasJson(int ID) throws SQLException
+    {
+        DS_Weapons weapon = getWeaponById(ID);
+        return new Gson().toJson(weapon);
+    }
+
     public User logIn(String username, String password) throws SQLException
     {
         User u = null;
