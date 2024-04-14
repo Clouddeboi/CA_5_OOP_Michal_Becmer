@@ -18,11 +18,12 @@ import java.util.Scanner;
  * - Stephen did Feature 4
  * - Michal did Feature 5
  * - Stephen did Feature 6
+ * - Michal did Feature 7
+ * - Stephen did Feature 8
  * */
 
 /**
  * Main author: Michal Becmer
- * Other contributors:
  **/
 
 public class MainApp {
@@ -182,7 +183,6 @@ public class MainApp {
                     case 6:
                         /**
                          * Main author: Stephen Carragher Kelly
-                         * Other contributors:
                          **/
                         filterWeaponsByCriteria(dao);
                         break;
@@ -192,7 +192,6 @@ public class MainApp {
                     case 8:
                         /**
                          * Main author: Stephen Carragher Kelly
-                         * Other contributors:
                          **/
                         System.out.println("Enter the ID of the weapon you would like to see as a JSON String");
                         int weaponID = in.nextInt();
@@ -219,7 +218,6 @@ public class MainApp {
 
     /**
      * Main author: Michal Becmer
-     * Other contributors:
      **/
 
     private static void ShowAllWeapons(DAO dao) throws SQLException {
@@ -236,7 +234,6 @@ public class MainApp {
 
     /**
      * Main author: Stephen Carragher Kelly
-     * Other contributors:
      **/
     private static void filterWeaponsByCriteria(DAO dao) throws SQLException
     {

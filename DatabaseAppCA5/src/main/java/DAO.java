@@ -76,10 +76,10 @@ public class DAO
         return weapons;
     }
 
+
     //f2:Find by ID
     /**
      * Main author: Jeffin Jesudas
-     * Other contributors: Michal Becmer
      **/
     public DS_Weapons getWeaponById(int id) throws SQLException {
         Connection connection = getConnection(); // Get a connection to the database
@@ -166,7 +166,6 @@ public class DAO
 
     /**
      * Main author: Michal Becmer
-     * Other contributors:
      **/
     public DS_Weapons update(int id, DS_Weapons weapon) throws SQLException{
 
@@ -206,7 +205,6 @@ public class DAO
 
     /**
      * Main author: Stephen Carragher Kelly
-     * Other contributors:
      **/
     public List<DS_Weapons> getWeaponByFilter(String filterCriteria, float filterValue) throws SQLException
     {
@@ -247,7 +245,7 @@ public class DAO
         return weapons;
     }
     /**
-            * Main author: Stephen Carragher Kelly
+        * Main author: Stephen Carragher Kelly
      **/
     public String getWeaponbyIDasJson(int ID) throws SQLException
     {
