@@ -31,4 +31,10 @@ public class JSON_Converter {
         Type listType = TypeToken.getParameterized(List.class, typeClass).getType();
         return gson.fromJson(jsonString, listType);
     }
+
+    //converts an array of strings to a json string
+    public static String arrayToJsonString(String[] array) {
+        return new Gson().toJson(array);
+    }
+
 }

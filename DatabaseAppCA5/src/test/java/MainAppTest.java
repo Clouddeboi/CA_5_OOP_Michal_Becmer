@@ -34,6 +34,7 @@ class MainAppTest {
         var MainApp = new MainApp();
         List<DS_Weapons> weapons = dao.getAllWeapons();
         //this doesn't work once we add more entities in the Junit tests
+        //we temporarily change the test case and will fix later
         //assertEquals(30, weapons.size());
         int expectedAmountOfWeapons = weapons.size();
         assertTrue(expectedAmountOfWeapons > 0);
@@ -83,15 +84,19 @@ class MainAppTest {
     void testInsertEntitySuccessfully() throws SQLException {
         //Adding a test weapon to DB
         DS_Weapons testWeapon = new DS_Weapons();
+
         testWeapon.setName("Test Weapon");
         testWeapon.setAttack(100);
         testWeapon.setWeight(1.1f);
         testWeapon.setLocation("Test Location");
+
         dao.insertWeapon(testWeapon);
 
         //checking if it was inserted successfully
         DS_Weapons testInsert = dao.getWeaponById(testWeapon.getID());
+
         assertNotNull(testInsert);
+
         assertEquals("Test Weapon", testInsert.getName());
         assertEquals(100, testInsert.getAttack());
         assertEquals(1.1f, testInsert.getWeight());

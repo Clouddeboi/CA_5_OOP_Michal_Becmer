@@ -1,10 +1,8 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.ServerSocket;
-import java.io.IOException;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -141,6 +139,29 @@ public class Server
                         {
                             out.println("Error cant create weapon: " +e.getMessage());
                             System.out.println("Server Message: Error failed to add weapon");
+                        }
+                    }
+                    else if (request.equals("GetImagesList"))
+                    {
+                        //reads the file directory
+                        File imageDirectory = new File("DatabaseAppCA5/Images");
+                        //retrieve the list of image files in the specified directory above
+                        String[] imageFiles = imageDirectory.list();
+
+                        //checks that imageFiles is not null and contains more than 0 images
+                        if (imageFiles != null && imageFiles.length > 0)
+                        {
+                            //Convert array of image file names to JSON format
+                            String jsonImageList = JSON_Converter.arrayToJsonString(imageFiles);
+                            //Send JSON response to client
+                            out.println(jsonImageList);
+                            System.out.println("Server Message: Image list sent to client.");
+                        }
+                        else
+                        {
+                            //sends empty list
+                            out.println("[]");
+                            System.out.println("Server Message: No images found.");
                         }
                     }
                     else

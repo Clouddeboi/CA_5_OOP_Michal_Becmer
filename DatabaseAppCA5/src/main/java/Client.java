@@ -39,6 +39,7 @@ public class Client
             System.out.println("ViewID:<ID>");
             System.out.println("ViewAll");
             System.out.println("AddEntity");
+            System.out.println("Get Images List");
             System.out.println("Please enter a command: ");
             String userRequest = consoleInput.nextLine();
             // send the command to the server on the socket
@@ -121,6 +122,28 @@ public class Client
 
                 String response;
                 System.out.println(response = in.readLine());
+            }
+            else if (userRequest.equalsIgnoreCase("Get Images List"))
+            {
+                //sends command to server
+                out.println("GetImagesList");
+                String JsonResponse = in.readLine();//reads JSON response
+
+                //converts response into list of image file names
+                List<String> imageList = JSON_Converter.jsonStringtoList(JsonResponse, String.class);
+                //checks if list isnt empty
+                if(!imageList.isEmpty())
+                {
+                    //print each image file name
+                    for(String imageName : imageList)
+                    {
+                        System.out.println(imageName);
+                    }
+                }
+                else
+                {
+                    System.out.println("No images found");
+                }
             }
             else
             {
