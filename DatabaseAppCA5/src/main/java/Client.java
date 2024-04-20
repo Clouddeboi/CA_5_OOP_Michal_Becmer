@@ -2,6 +2,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.List;
 import java.util.Scanner;
+import java.sql.SQLOutput;
 
 /**
  * Main author: Stephen Carragher Kelly
@@ -30,17 +31,20 @@ public class Client
             //ask user to enter a command
             Scanner consoleInput = new Scanner(System.in);
 
-            //while(true)
-            //{
             /**
              * Main author: Stephen Carragher Kelly
              **/
+            System.out.println("---------------------------");
             System.out.println("Please enter any of the following commands in the correct format.");
+            System.out.println("---------------------------");
             System.out.println("ViewID:<ID>");
             System.out.println("ViewAll");
             System.out.println("AddEntity");
+            System.out.println("DeleteID:<ID>");
             System.out.println("Get Images List");
+            System.out.println("Exit");
             System.out.println("Please enter a command: ");
+            System.out.println("---------------------------");
             String userRequest = consoleInput.nextLine();
             // send the command to the server on the socket
             //out.println(userRequest);      // write the request to socket along with a newline terminator (which is required)
@@ -51,105 +55,121 @@ public class Client
             //}
             // process the answer returned by the server
             //
-            /**
-             * Main author: Stephen Carragher Kelly
-             **/
-            if(userRequest.startsWith("ViewID"))
-            {
-                out.println(userRequest);
-                String Jsonweapon = in.readLine();
-                DS_Weapons weapon = JSON_Converter.JsonStringtoEntity(Jsonweapon, DS_Weapons.class);
+            while (true) {
+                /**
+                 * Main author: Stephen Carragher Kelly
+                 **/
+                if (userRequest.startsWith("ViewID")) {
+                    out.println(userRequest);
+                    String Jsonweapon = in.readLine();
+                    DS_Weapons weapon = JSON_Converter.JsonStringtoEntity(Jsonweapon, DS_Weapons.class);
 
-                if(weapon != null)
-                {
-                    System.out.println("Weapon Details:");
-                    System.out.println("Name: " + weapon.getName());
-                    System.out.println("Attack: " + weapon.getAttack());
-                    System.out.println("Weight: " + weapon.getWeight());
-                    System.out.println("Location: " + weapon.getLocation());
-                }
-                else
-                {
-                    System.out.println("Weapon not found for ID");
-                }
-            }
-            /**
-             * Main author: Stephen Carragher Kelly
-             **/
-            else if(userRequest.startsWith("ViewAll"))
-            {
-                out.println(userRequest);
-                String allJsonWeapons = in.readLine();
-                List<DS_Weapons> allWeapons = JSON_Converter.jsonStringtoList(allJsonWeapons, DS_Weapons.class);
-
-                if(allWeapons.isEmpty())
-                {
-                    System.out.println("No weapons found");
-                }
-                else
-                {
-                    System.out.println("All weapons:");
-                    System.out.printf("%-5s %-35s %-15s %-15s %-5s\n", "ID", "Name", "Attack", "Weight", "Location");
-                    for (DS_Weapons weapons: allWeapons)
-                    {
-                        System.out.printf("%-5s %-35s %-15s %-15s %-5s\n", weapons.getID(), weapons.getName(), weapons.getAttack(), weapons.getWeight(), weapons.getLocation());
+                    if (weapon != null) {
+                        System.out.println("Weapon Details:");
+                        System.out.println("Name: " + weapon.getName());
+                        System.out.println("Attack: " + weapon.getAttack());
+                        System.out.println("Weight: " + weapon.getWeight());
+                        System.out.println("Location: " + weapon.getLocation());
+                    } else {
+                        System.out.println("Weapon not found for ID");
                     }
                 }
-            }
-            /**
-             * Main author: Stephen Carragher Kelly
-             **/
-            else if(userRequest.startsWith("AddEntity"))
-            {
-                System.out.println("Enter the weapons Details");
-                System.out.println("Name: ");
-                String name = consoleInput.nextLine();
+                /**
+                 * Main author: Stephen Carragher Kelly
+                 **/
+                else if (userRequest.startsWith("ViewAll")) {
+                    out.println(userRequest);
+                    String allJsonWeapons = in.readLine();
+                    List<DS_Weapons> allWeapons = JSON_Converter.jsonStringtoList(allJsonWeapons, DS_Weapons.class);
 
-                System.out.println("Attack: ");
-                int attack = consoleInput.nextInt();
+                    if (allWeapons.isEmpty()) {
+                        System.out.println("No weapons found");
+                    } else {
+                        System.out.println("All weapons:");
+                        System.out.printf("%-5s %-35s %-15s %-15s %-5s\n", "ID", "Name", "Attack", "Weight", "Location");
+                        for (DS_Weapons weapons : allWeapons) {
+                            System.out.printf("%-5s %-35s %-15s %-15s %-5s\n", weapons.getID(), weapons.getName(), weapons.getAttack(), weapons.getWeight(), weapons.getLocation());
+                        }
+                    }
+                }
+                /**
+                 * Main author: Stephen Carragher Kelly
+                 **/
+                else if (userRequest.startsWith("AddEntity")) {
+                    System.out.println("Enter the weapons Details");
+                    System.out.println("Name: ");
+                    String name = consoleInput.nextLine();
 
-                System.out.println("Weight: ");
-                float weight = consoleInput.nextFloat();
+                    System.out.println("Attack: ");
+                    int attack = consoleInput.nextInt();
 
-                System.out.println("Location: ");
-                consoleInput.nextLine();
-                String location = consoleInput.nextLine();
+                    System.out.println("Weight: ");
+                    float weight = consoleInput.nextFloat();
 
-                String JSONRequest = "AddEntity:|Name:" + name + "|Attack:" + attack + "|Weight:" + weight + "|Location:" + location;
+                    System.out.println("Location: ");
+                    consoleInput.nextLine();
+                    String location = consoleInput.nextLine();
 
-                out.println(JSONRequest);
+                    String JSONRequest = "AddEntity:|Name:" + name + "|Attack:" + attack + "|Weight:" + weight + "|Location:" + location;
+
+                    out.println(JSONRequest);
 
 
-                String response;
-                System.out.println(response = in.readLine());
-            }
-            else if (userRequest.equalsIgnoreCase("Get Images List"))
-            {
-                //sends command to server
-                out.println("GetImagesList");
-                String JsonResponse = in.readLine();//reads JSON response
-
-                //converts response into list of image file names
-                List<String> imageList = JSON_Converter.jsonStringtoList(JsonResponse, String.class);
-                //checks if list isnt empty
-                if(!imageList.isEmpty())
+                    String response;
+                    System.out.println(response = in.readLine());
+                }
+                else if(userRequest.startsWith("DeleteID"))
                 {
-                    //print each image file name
-                    for(String imageName : imageList)
+                    out.println(userRequest);
+                    String response = in.readLine();
+                    System.out.println(response);
+                }
+                else if (userRequest.startsWith("Exit"))
+                {
+                    out.println(userRequest);
+                    String response = in.readLine();
+                    System.out.println("Client message: Response from server: \"" + response + "\"");
+                    break;
+                }
+                else if (userRequest.equalsIgnoreCase("Get Images List"))
+                {
+                    //sends command to server
+                    out.println("GetImagesList");
+                    String JsonResponse = in.readLine();//reads JSON response
+
+                    //converts response into list of image file names
+                    List<String> imageList = JSON_Converter.jsonStringtoList(JsonResponse, String.class);
+                    //checks if list isnt empty
+                    if (!imageList.isEmpty())
                     {
-                        System.out.println(imageName);
+                        //print each image file name
+                        for (String imageName : imageList)
+                        {
+                            System.out.println(imageName);
+                        }
+                    }
+                    else
+                    {
+                        System.out.println("No images found");
                     }
                 }
                 else
                 {
-                    System.out.println("No images found");
+                    System.out.println("Invalid request");
                 }
+                consoleInput = new Scanner(System.in);
+                System.out.println("---------------------------");
+                System.out.println("Please enter any of the following commands in the correct format.");
+                System.out.println("---------------------------");
+                System.out.println("ViewID:<ID>");
+                System.out.println("ViewAll");
+                System.out.println("AddEntity");
+                System.out.println("DeleteID:<ID>");
+                System.out.println("Exit");
+                System.out.println("Please enter a command: ");
+                System.out.println("---------------------------");
+                userRequest = consoleInput.nextLine();
             }
-            else
-            {
-                System.out.println("Invaid request");
-            }
-
         }
 
         //}
