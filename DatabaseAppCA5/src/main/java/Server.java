@@ -194,7 +194,7 @@ class ClientHandler implements Runnable
                     {
                         //sends empty list
                         out.println("[]");
-                        System.out.println("Server Messagde: No images found.");
+                        System.out.println("Server Message: No images found.");
                     }
                 }
 

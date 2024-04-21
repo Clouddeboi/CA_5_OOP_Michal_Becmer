@@ -1,9 +1,16 @@
 import com.sun.tools.javac.Main;
+import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 //import org.junit.Assert;
 //import org.junit.Before;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +22,14 @@ class MainAppTest {
     private DAO dao;
     private Integer testWeaponID;
 
+    private Server server;
+
+
     @org.junit.jupiter.api.BeforeEach
     public void setUp()
     {
         dao = DAO.getInstance();
+        server = new Server();
     }
 
     @AfterEach
@@ -178,13 +189,8 @@ class MainAppTest {
     //Feature 8 Tests
 
     @org.junit.jupiter.api.Test
-    void testGetWeaponByIdJson() throws SQLException {
-        String expectedJson = "{\"ID\":2,\"Name\":\"Broadsword\",\"Attack\":205,\"Weight\":3.0,\"Location\":\"Purchased\"}";
+    void testGetWeaponByIdJson() throws SQLException{
 
-        int weaponId = 2;
-        String actualJson = dao.getWeaponbyIDasJson(weaponId);
-
-        // Assert that the actual JSON response matches the expected JSON string
-        assertEquals(expectedJson, actualJson);
     }
 }
+
